@@ -6,13 +6,14 @@
     <title>Document</title>
   </head>
   <body>
-    <main>
+    <main id="main">
       <div>
         <h1>ToDo List</h1>
         <ul id="toDoList"></ul>
       </div>
-      <h2>Add Task:</h2>
-      <form>
+      <form id="form">
+        <h2>Add Task:</h2>
+        <input type="text" id="identifier" name="identifier" style="display: none" readonly/><br />
         <label for="title">Title:</label><br />
         <input type="text" id="title" name="title" /><br />
         <label for="desc">Description:</label><br />
@@ -20,7 +21,7 @@
         <label for="desc">Date:</label><br />
         <input type="text" id="date" name="date" /><br />
         <label for="isDone">Is task done?</label><br />
-        <input type="checkbox" id="check" name="check" /><br>
+        <input type="checkbox" id="check" name="check" /><br />
         <button id="addBtn">Add Task</button>
       </form>
     </main>
