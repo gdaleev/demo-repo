@@ -1,18 +1,11 @@
 {
   "results": [
     {
-      "title": "Dishes",
-      "description": "Wash the dishes",
-      "date": "15/11/2024",
-      "isDone": false,
-      "id": 0
-    },
-    {
-      "id": 1,
-      "title": "Dog",
-      "description": "Walk the doggo",
+      "title": "Cat",
+      "description": "Wash the cat",
       "date": "17/11/2023",
-      "isDone": false
+      "isDone": false,
+      "id": 1
     },
     {
       "title": "Dishes",
@@ -22,18 +15,153 @@
       "id": 2
     },
     {
-      "title": "Dishes",
-      "description": "Wash the dishes",
+      "title": "Wood",
+      "description": "Chop wood",
       "date": "15/11/2023",
-      "isDone": false,
+      "isDone": true,
       "id": 4
     },
     {
-      "title": "a",
-      "description": "a",
-      "date": "a",
-      "isDone": true,
+      "title": "Homework",
+      "description": "Do homework",
+      "date": "30/11/2023",
+      "timeEstimation": "120",
+      "isDone": false,
       "id": 5
+    },
+    {
+      "title": "Stuff",
+      "description": "Do stuff",
+      "date": "11/11/2022",
+      "timeEstimation": "111",
+      "isDone": false,
+      "id": 6
+    },
+    {
+      "title": "Fishing",
+      "description": "Go fishing",
+      "date": "15/11/2024",
+      "timeEstimation": "120",
+      "isDone": true,
+      "id": 7
+    },
+    {
+      "title": "Exercise",
+      "description": "Morning workout",
+      "date": "20/11/2023",
+      "timeEstimation": "60",
+      "isDone": false,
+      "id": 8
+    },
+    {
+      "title": "Gardening",
+      "description": "Plant flowers",
+      "date": "25/11/2023",
+      "isDone": false,
+      "id": 9
+    },
+    {
+      "title": "Book Club",
+      "description": "Attend book club meeting",
+      "date": "28/11/2023",
+      "isDone": false,
+      "id": 10
+    },
+    {
+      "title": "Shopping",
+      "description": "Grocery shopping",
+      "date": "22/11/2023",
+      "isDone": true,
+      "id": 11
+    },
+    {
+      "title": "Coding",
+      "description": "Learn a new programming language",
+      "date": "30/11/2023",
+      "timeEstimation": "90",
+      "isDone": false,
+      "id": 12
+    },
+    {
+      "title": "Travel",
+      "description": "Plan next vacation",
+      "date": "01/12/2023",
+      "isDone": false,
+      "id": 13
+    },
+    {
+      "title": "Baking",
+      "description": "Bake cookies",
+      "date": "25/12/2023",
+      "isDone": false,
+      "id": 14
+    },
+    {
+      "title": "Volunteering",
+      "description": "Help at the local shelter",
+      "date": "05/12/2023",
+      "isDone": false,
+      "id": 15
+    },
+    {
+      "title": "Painting",
+      "description": "Create a new artwork",
+      "date": "10/12/2023",
+      "isDone": false,
+      "id": 16
+    },
+    {
+      "title": "Yoga",
+      "description": "Evening yoga session",
+      "date": "27/11/2023",
+      "isDone": false,
+      "id": 17
+    },
+    {
+      "title": "Project",
+      "description": "Start a personal project",
+      "date": "01/01/2024",
+      "isDone": false,
+      "id": 18
+    },
+    {
+      "title": "Writing",
+      "description": "Start a journal",
+      "date": "29/11/2023",
+      "isDone": false,
+      "id": 19
+    },
+    {
+      "title": "Photography",
+      "description": "Capture landscapes",
+      "date": "20/12/2023",
+      "isDone": false,
+      "id": 20
+    },
+    {
+      "title": "Volleyball",
+      "description": "Go volleyball training",
+      "date": "20/12/2023",
+      "isDone": false,
+      "id": 21
+    },
+    {
+      "title": "asd",
+      "description": "asd",
+      "date": "asd",
+      "timeEstimation": "asd",
+      "isDone": true,
+      "id": 22
+    }
+  ],
+  "login": [
+    {
+      "username": "my name",
+      "role": ["admin"]
+    },
+    {
+      "username": "user_name",
+      "password": "123456"
     }
   ]
 }
