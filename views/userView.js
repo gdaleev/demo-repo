@@ -27,7 +27,7 @@ const userTemp = html`<div id="top-links">
 <label id="pageIndex">1</label>
 <button id="nextPage">→</button>
 
-<form id="addTaskform">
+<form id="addTaskForm">
 <h2>Add Task:</h2>
 <input
 type="text"

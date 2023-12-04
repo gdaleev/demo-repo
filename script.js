@@ -1,7 +1,7 @@
-async function getTasksFromServer() {
-  const response = await fetch("http://localhost:3000/results");
-  return response.json();
-}
+// async function getTasksFromServer() {
+//   const response = await fetch("http://localhost:3000/results");
+//   return response.json();
+// }
 
 async function loadTaskPropsIntoDropdown() {
   try {
@@ -27,28 +27,37 @@ async function sortAscending() {
   const selectedIndex = selectCategory.selectedIndex;
   const selectedOption = selectCategory.options[selectedIndex];
   const selectedText = selectedOption.textContent;
+
   const response = await fetch(`${host}?_sort=${selectedText}&_order=asc`);
   const sortedData = await response.json();
+
+  const taskOwnerId = await getCurrentUserId();
+
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
-  const id = sortedData.id;
+
   sortedData.forEach((task) => {
+    const { id, ownerId, title, description, date, isDone, timeEstimation } =
+      task;
+    const isUserTask = ownerId == taskOwnerId;
+
     const liEl = document.createElement("li");
-    liEl.innerHTML = `Task: ${task.title}, Description: ${
-      task.description
-    }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
-      task.timeEstimation ? task.timeEstimation : 0
+    liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
+      timeEstimation ? timeEstimation : 0
     } min`;
 
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
+    if (isUserTask) {
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.setAttribute("data-id", id);
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.setAttribute("data-id", id);
 
-    liEl.appendChild(editBtn);
-    liEl.appendChild(deleteBtn);
+      liEl.appendChild(editBtn);
+      liEl.appendChild(deleteBtn);
+    }
+
     toDoList.appendChild(liEl);
   });
 }
@@ -59,28 +68,37 @@ async function sortDescending() {
   const selectedIndex = selectCategory.selectedIndex;
   const selectedOption = selectCategory.options[selectedIndex];
   const selectedText = selectedOption.textContent;
+
   const response = await fetch(`${host}?_sort=${selectedText}&_order=desc`);
   const sortedData = await response.json();
+
+  const taskOwnerId = await getCurrentUserId();
+
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
-  const id = sortedData.id;
+
   sortedData.forEach((task) => {
+    const { id, ownerId, title, description, date, isDone, timeEstimation } =
+      task;
+    const isUserTask = ownerId == taskOwnerId;
+
     const liEl = document.createElement("li");
-    liEl.innerHTML = `Task: ${task.title}, Description: ${
-      task.description
-    }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
-      task.timeEstimation ? task.timeEstimation : 0
+    liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
+      timeEstimation ? timeEstimation : 0
     } min`;
 
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
+    if (isUserTask) {
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.setAttribute("data-id", id);
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.setAttribute("data-id", id);
 
-    liEl.appendChild(editBtn);
-    liEl.appendChild(deleteBtn);
+      liEl.appendChild(editBtn);
+      liEl.appendChild(deleteBtn);
+    }
+
     toDoList.appendChild(liEl);
   });
 }
@@ -92,6 +110,8 @@ async function filterTrueFalse() {
   const selectedOption = selectCategory.options[selectedIndex];
   const selectedText = selectedOption.textContent;
 
+  const taskOwnerId = await getCurrentUserId()
+
   let isDoneValue;
   if (selectedText === "true" || selectedText === "false") {
     isDoneValue = selectedText === "true";
@@ -102,15 +122,18 @@ async function filterTrueFalse() {
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
 
-  sortedData.forEach((task) => {
+  sortedData.forEach((task) => { const { id, ownerId, title, description, date, isDone, timeEstimation } =
+  task; 
     const liEl = document.createElement("li");
     liEl.innerHTML = `Task: ${task.title}, Description: ${
       task.description
     }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
       task.timeEstimation ? task.timeEstimation : 0
     } min`;
+    const isUserTask = ownerId == taskOwnerId;
 
-    const editBtn = document.createElement("button");
+    if (isUserTask) {
+      const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
 
     const deleteBtn = document.createElement("button");
@@ -119,6 +142,9 @@ async function filterTrueFalse() {
 
     liEl.appendChild(editBtn);
     liEl.appendChild(deleteBtn);
+    }
+
+    
     toDoList.appendChild(liEl);
   });
 }
@@ -135,59 +161,59 @@ function checkAscOrDesc() {
   }
 }
 
-function createTaskElement(task) {
-  const { id, title, description, date, isDone, timeEstimation } = task;
+// function createTaskElement(task) {
+//   const { id, title, description, date, isDone, timeEstimation } = task;
 
-  const liEl = document.createElement("li");
-  liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
-    timeEstimation ? timeEstimation : 0
-  } min`;
+//   const liEl = document.createElement("li");
+//   liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
+//     timeEstimation ? timeEstimation : 0
+//   } min`;
 
-  const editBtn = document.createElement("button");
-  editBtn.textContent = "Edit";
+//   const editBtn = document.createElement("button");
+//   editBtn.textContent = "Edit";
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.setAttribute("data-id", id);
+//   const deleteBtn = document.createElement("button");
+//   deleteBtn.textContent = "Delete";
+//   deleteBtn.setAttribute("data-id", id);
 
-  liEl.appendChild(editBtn);
-  liEl.appendChild(deleteBtn);
+//   liEl.appendChild(editBtn);
+//   liEl.appendChild(deleteBtn);
 
-  return {
-    liEl,
-    editBtn,
-    deleteBtn,
-    id,
-    title,
-    description,
-    date,
-    isDone,
-    timeEstimation,
-  };
-}
+//   return {
+//     liEl,
+//     editBtn,
+//     deleteBtn,
+//     id,
+//     title,
+//     description,
+//     date,
+//     isDone,
+//     timeEstimation,
+//   };
+// }
 
-function handleEditTask(task) {
-  const { id, title, description, date, isDone, timeEstimation } = task;
+// function handleEditTask(task) {
+//   const { id, title, description, date, isDone, timeEstimation } = task;
 
-  const h2 = document.getElementsByTagName("h2")[0];
-  h2.textContent = "Edit Task:";
-  const button = document.getElementById("addBtn");
-  button.textContent = "Edit Task";
+//   const h2 = document.getElementsByTagName("h2")[0];
+//   h2.textContent = "Edit Task:";
+//   const button = document.getElementById("addBtn");
+//   button.textContent = "Edit Task";
 
-  const idInput = document.getElementById("identifier");
-  const titleInput = document.getElementById("title");
-  const descInput = document.getElementById("desc");
-  const dateInput = document.getElementById("date");
-  const timeInput = document.getElementById("time");
-  const checkBox = document.getElementById("check");
+//   const idInput = document.getElementById("identifier");
+//   const titleInput = document.getElementById("title");
+//   const descInput = document.getElementById("desc");
+//   const dateInput = document.getElementById("date");
+//   const timeInput = document.getElementById("time");
+//   const checkBox = document.getElementById("check");
 
-  idInput.value = id;
-  titleInput.value = title;
-  descInput.value = description;
-  dateInput.value = date;
-  timeInput.value = timeEstimation;
-  checkBox.checked = isDone;
-}
+//   idInput.value = id;
+//   titleInput.value = title;
+//   descInput.value = description;
+//   dateInput.value = date;
+//   timeInput.value = timeEstimation;
+//   checkBox.checked = isDone;
+// }
 
 function search() {
   const searchBox = document.getElementById("searchBox");
@@ -238,15 +264,12 @@ async function getNextPageItems() {
   }
 }
 
-
-
 async function getPrevPageItems() {
   try {
     const pageLabel = document.getElementById("pageIndex");
     let pageIndex = parseInt(pageLabel.textContent);
     pageIndex--;
 
-    // Ensure the pageIndex doesn't go below 1
     if (pageIndex < 1) {
       pageIndex = 1;
     }
@@ -256,13 +279,10 @@ async function getPrevPageItems() {
     );
     const data = await response.json();
 
-    // Render the fetched items
     renderTasks(data);
 
-    // Update the pageIndex in the UI
     pageLabel.textContent = pageIndex;
 
-    // Enable/disable pagination buttons based on the pageIndex
     const nextPageBtn = document.getElementById("nextPage");
     nextPageBtn.addEventListener("click", getNextPageItems);
     nextPageBtn.disabled = false;
@@ -274,25 +294,38 @@ async function getPrevPageItems() {
   }
 }
 
-function renderTasks(data) {
+async function renderTasks(data) {
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
-
+  const ownerId = await getCurrentUserId();
 
   data.forEach((task) => {
     const liEl = document.createElement("li");
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
 
-    liEl.appendChild(editBtn);
-    liEl.appendChild(deleteBtn);
+    if (task.ownerId == ownerId) {
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      const taskDetails = document.createElement("span");
+      taskDetails.textContent = `Task: ${task.title}, Description: ${
+        task.description
+      }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
+        task.timeEstimation ? task.timeEstimation : 0
+      } min`;
+      liEl.appendChild(taskDetails);
+      liEl.appendChild(editBtn);
+      liEl.appendChild(deleteBtn);
+    } else {
+      const taskDetails = document.createElement("span");
+      taskDetails.textContent = `Task: ${task.title}, Description: ${
+        task.description
+      }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
+        task.timeEstimation ? task.timeEstimation : 0
+      } min`;
+      liEl.appendChild(taskDetails);
+    }
 
-    const taskDetails = document.createElement("span");
-    taskDetails.textContent = `Task: ${task.title}, Description: ${task.description}`;
-
-    liEl.appendChild(taskDetails);
     toDoList.appendChild(liEl);
   });
 }
@@ -301,23 +334,43 @@ function validateForm() {
   const titleInput = document.getElementById("title");
   const descInput = document.getElementById("desc");
   const dateInput = document.getElementById("date");
-  const timeInput = document.getElementById("time");
+  let errorLabel = document.getElementById("errorLabel");
 
-  const titleError = document.querySelector("#titleError");
+  if (!errorLabel) {
+    errorLabel = document.createElement("label");
+    errorLabel.id = "errorLabel";
+    errorLabel.style.color = "red";
+    titleInput.parentNode.appendChild(errorLabel);
+  }
+
   if (titleInput.value.trim() === "") {
-    if (!titleError) {
-      const errorLabel = document.createElement("label");
-      errorLabel.textContent = "Title cannot be empty!";
-      errorLabel.style.color = "red";
-      errorLabel.setAttribute("id", "titleError");
-      titleInput.parentNode.appendChild(errorLabel);
-    }
+    errorLabel.textContent = "Title cannot be empty!";
+    return false;
+  } else if (descInput.value.trim() === "") {
+    errorLabel.textContent = "Description cannot be empty!";
+    return false;
+  } else if (dateInput.value.trim() === "") {
+    errorLabel.textContent = "Date cannot be empty!";
     return false;
   } else {
-    if (titleError) {
-      titleError.parentNode.removeChild(titleError);
-    }
+    errorLabel.textContent = "";
     return true;
+  }
+}
+
+async function getCurrentUserId() {
+  const userString = localStorage.getItem("username");
+
+  const userDataResponse = await fetch("http://localhost:3000/users");
+  const userData = await userDataResponse.json();
+
+  let ownerId = "";
+
+  for (const [_id, { username, id }] of Object.entries(userData)) {
+    if (userString == username) {
+      ownerId = id;
+      return ownerId;
+    }
   }
 }
 
@@ -329,12 +382,15 @@ async function updateOrCreateTask(isEdit) {
   const timeInput = document.getElementById("time");
   const checkBox = document.getElementById("check");
 
+  const ownerId = await getCurrentUserId();
+
   const data = {
     title: titleInput.value,
     description: descInput.value,
     date: dateInput.value,
     timeEstimation: timeInput.value,
     isDone: checkBox.checked,
+    ownerId: ownerId,
   };
 
   if (!validateForm()) {
@@ -351,12 +407,13 @@ async function updateOrCreateTask(isEdit) {
       },
       body: JSON.stringify(data),
     });
-    titleInput.value = "";
-    descInput.value = "";
-    dateInput.value = "";
-    timeInput.value = "";
-    checkBox.checked = false;
   }
+
+  titleInput.value = "";
+  descInput.value = "";
+  dateInput.value = "";
+  timeInput.value = "";
+  checkBox.checked = false;
 }
 
 async function deleteTask(id) {
@@ -375,64 +432,36 @@ import { guestView } from "./views/guestView.js";
 import { userView } from "./views/userView.js";
 import { logout } from "./views/logout.js";
 
-const sortBtn = document.getElementById("sortBtn");
-const filterBtn = document.getElementById("filterBtn");
-const searchBtn = document.getElementById("searchBoxBtn");
-const registerLink = document.querySelector(".register-link");
-const loginLink = document.querySelector(".top-link");
-// registerLink.addEventListener("click", registerView);
-// loginLink.addEventListener("click", loginView);
-// sortBtn.addEventListener("click", checkAscOrDesc);
-// filterBtn.addEventListener("click", filterTrueFalse);
-// searchBtn.addEventListener("click", search);
-
 page("/index.html", guestView);
 page("/", guestView);
 page("/login", loginView);
 page("/register", registerView);
 page("/home", (context, next) => {
   userView(context, next);
-  initializeApp(); 
+  initializeApp();
 });
 page("/logout", logout);
 page.start();
 
 async function initializeApp() {
-  // const tasks = await getTasksFromServer();
-  // const ulEl = document.getElementById("toDoList");
   loadTaskPropsIntoDropdown();
   getNextPageItems();
   getPrevPageItems();
-
-  // tasks.forEach((task) => {
-  //   const {
-  //     liEl,
-  //     editBtn,
-  //     deleteBtn,
-  //     id,
-  //     title,
-  //     description,
-  //     date,
-  //     isDone,
-  //     timeEstimation,
-  //   } = createTaskElement(task);
-
-  //   editBtn.addEventListener("click", () => {
-  //     validateForm();
-  //     handleEditTask({ id, title, description, date, isDone, timeEstimation });
-  //   });
-
-  //   deleteBtn.addEventListener("click", async () => {
-  //     await deleteTask(id);
-  //     ulEl.removeChild(liEl);
-  //   });
-
-  //   ulEl.appendChild(liEl);
-  // });
+  const sortBtn = document.getElementById("sortBtn");
+  sortBtn.addEventListener("click", checkAscOrDesc);
+  const filterBtn = document.getElementById("filterBtn");
+  const searchBtn = document.getElementById("searchBoxBtn");
+  filterBtn.addEventListener("click", filterTrueFalse);
+  searchBtn.addEventListener("click", search);
 
   const addBtn = document.getElementById("addBtn");
   addBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const isEdit = addBtn.textContent === "Edit Task";
     await updateOrCreateTask(isEdit);
   });

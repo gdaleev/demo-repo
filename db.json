@@ -81,29 +81,45 @@
       "timeEstimation": "aaa",
       "isDone": true,
       "id": 11
+    },
+    {
+      "title": "bbb",
+      "description": "bbb",
+      "date": "bbb",
+      "timeEstimation": "bbb",
+      "isDone": false,
+      "ownerId": 1,
+      "id": 12
+    },
+    {
+      "title": "ccc",
+      "description": "ccc",
+      "date": "ccc",
+      "timeEstimation": "ccc",
+      "isDone": true,
+      "ownerId": 2,
+      "id": 13
+    },
+    {
+      "title": "ddd",
+      "description": "ddd",
+      "date": "ddd",
+      "timeEstimation": "",
+      "isDone": false,
+      "ownerId": 3,
+      "id": 14
+    },
+    {
+      "title": "Idi do magazina",
+      "description": "Kupi hlqb",
+      "date": "05/12/2023",
+      "timeEstimation": "15",
+      "isDone": false,
+      "ownerId": 4,
+      "id": 15
     }
   ],
   "users": [
-    {
-      "username": "my_name",
-      "password": "654321",
-      "id": 1
-    },
-    {
-      "username": "user_name",
-      "password": "123456",
-      "id": 2
-    },
-    {
-      "username": "gdaleev",
-      "password": "123",
-      "id": 3
-    },
-    {
-      "username": "atunev",
-      "password": "321",
-      "id": 4
-    },
     {
       "username": "georgidaleev",
       "password": "123",
@@ -113,13 +129,40 @@
         "canUpdateOwnTasks",
         "canDeleteOwnTasks"
       ],
-      "ownerId": "",
-      "id": 5
+      "id": 1
     },
     {
-      "username": "aa",
-      "password": "aa",
-      "id": 6
+      "username": "atanastunev",
+      "password": "321",
+      "permissions": [
+        "canCreateNewTasks",
+        "canReadTasks",
+        "canUpdateOwnTasks",
+        "canDeleteOwnTasks"
+      ],
+      "id": 2
+    },
+    {
+      "username": "vasilurumov",
+      "password": "456",
+      "permissions": [
+        "canCreateNewTasks",
+        "canReadTasks",
+        "canUpdateOwnTasks",
+        "canDeleteOwnTasks"
+      ],
+      "id": 3
+    },
+    {
+      "username": "pesho",
+      "password": "0000",
+      "permissions": [
+        "canCreateNewTasks",
+        "canReadTasks",
+        "canUpdateOwnTasks",
+        "canDeleteOwnTasks"
+      ],
+      "id": 4
     }
   ]
 }
