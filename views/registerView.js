@@ -41,12 +41,11 @@ async function onSubmit(e) {
           username: username,
           password: password,
           permissions: ['canCreateNewTasks', 'canReadTasks', 'canUpdateOwnTasks', 'canDeleteOwnTasks'],
-          ownerId: ""
         }),
       });
 
       if (response.ok) {
-        console.log("User registered successfully!");
+        window.alert("User registered successfully!");
         page.redirect("/login")
       } else {
         console.error("Failed to register user:", response.statusText);
