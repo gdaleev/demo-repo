@@ -4,54 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="script.js" type="module"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #top-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 15px;
+      }
+
+      .top-link,
+      .register-link,
+      .logout-link {
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        margin-left: 10px;
+        color: #fff;
+      }
+
+      .top-link {
+        background-color: #007bff;
+      }
+
+      .register-link {
+        background-color: #28a745;
+      }
+
+      .logout-link {
+        background-color: #dc3545;
+      }
+    </style>
   </head>
+
   <body>
-    <main id="main">
-      <div>
-        <h1>ToDo List</h1>
-        <select class="category"></select>
-        <select class="sort">
-          <option>Ascending</option>
-          <option>Descending</option>
-        </select> 
-        <button id="sortBtn" class="button success">Sort</button><br>
-        <label for="">Is task done?</label>
-        <select class="filterDoneOrNot">
-          <option>true</option>
-          <option>false</option>
-        </select>
-        <button id="filterBtn" class="button warning">Filter</button><br>
-        <label for="searchBox">Search for task:</label><br /> 
-        <input type="text" id="searchBox" name="searchBox"/>
-        <button id="searchBoxBtn">Search</button>
-        <ul id="toDoList"></ul>
-        <label>Page:</label><br>
-        <button id="previousPage">←</button>
-        <label id="pageIndex">1</label>
-        <button id="nextPage">→</button>
-      </div>
-      <form id="form">
-        <h2>Add Task:</h2>
-        <input
-          type="text"
-          id="identifier"
-          name="identifier"
-          style="display: none"
-          readonly
-        /><br />
-        <label for="title">Title:</label><br />
-        <input type="text" id="title" name="title" required/><br />
-        <label for="desc">Description:</label><br />
-        <input type="text" id="desc" name="desc" required/><br />
-        <label for="desc">Date:</label><br />
-        <input type="text" id="date" name="date" required/><br />
-        <label for="time">Estimated time:</label><br />
-        <input type="text" id="time" name="time" required/><br />
-        <label for="isDone">Is task done?</label><br />
-        <input type="checkbox" id="check" name="check" required/><br />
-        <button id="addBtn" class="button primary">Add Task</button>
-      </form>
-    </main>
-    <script src="script.js"></script>
+    <main></main>
   </body>
 </html>

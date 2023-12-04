@@ -19,7 +19,7 @@
       "description": "Chop wood",
       "date": "15/11/2023",
       "isDone": true,
-      "id": 4
+      "id": 3
     },
     {
       "title": "Homework",
@@ -27,7 +27,7 @@
       "date": "30/11/2023",
       "timeEstimation": "120",
       "isDone": false,
-      "id": 5
+      "id": 4
     },
     {
       "title": "Stuff",
@@ -35,7 +35,7 @@
       "date": "11/11/2022",
       "timeEstimation": "111",
       "isDone": false,
-      "id": 6
+      "id": 5
     },
     {
       "title": "Fishing",
@@ -43,7 +43,7 @@
       "date": "15/11/2024",
       "timeEstimation": "120",
       "isDone": true,
-      "id": 7
+      "id": 6
     },
     {
       "title": "Exercise",
@@ -51,117 +51,75 @@
       "date": "20/11/2023",
       "timeEstimation": "60",
       "isDone": false,
-      "id": 8
+      "id": 7
     },
     {
       "title": "Gardening",
       "description": "Plant flowers",
       "date": "25/11/2023",
       "isDone": false,
-      "id": 9
+      "id": 8
     },
     {
       "title": "Book Club",
       "description": "Attend book club meeting",
       "date": "28/11/2023",
       "isDone": false,
-      "id": 10
+      "id": 9
     },
     {
       "title": "Shopping",
       "description": "Grocery shopping",
       "date": "22/11/2023",
       "isDone": true,
-      "id": 11
+      "id": 10
     },
     {
-      "title": "Coding",
-      "description": "Learn a new programming language",
-      "date": "30/11/2023",
-      "timeEstimation": "90",
-      "isDone": false,
-      "id": 12
-    },
-    {
-      "title": "Travel",
-      "description": "Plan next vacation",
-      "date": "01/12/2023",
-      "isDone": false,
-      "id": 13
-    },
-    {
-      "title": "Baking",
-      "description": "Bake cookies",
-      "date": "25/12/2023",
-      "isDone": false,
-      "id": 14
-    },
-    {
-      "title": "Volunteering",
-      "description": "Help at the local shelter",
-      "date": "05/12/2023",
-      "isDone": false,
-      "id": 15
-    },
-    {
-      "title": "Painting",
-      "description": "Create a new artwork",
-      "date": "10/12/2023",
-      "isDone": false,
-      "id": 16
-    },
-    {
-      "title": "Yoga",
-      "description": "Evening yoga session",
-      "date": "27/11/2023",
-      "isDone": false,
-      "id": 17
-    },
-    {
-      "title": "Project",
-      "description": "Start a personal project",
-      "date": "01/01/2024",
-      "isDone": false,
-      "id": 18
-    },
-    {
-      "title": "Writing",
-      "description": "Start a journal",
-      "date": "29/11/2023",
-      "isDone": false,
-      "id": 19
-    },
-    {
-      "title": "Photography",
-      "description": "Capture landscapes",
-      "date": "20/12/2023",
-      "isDone": false,
-      "id": 20
-    },
-    {
-      "title": "Volleyball",
-      "description": "Go volleyball training",
-      "date": "20/12/2023",
-      "isDone": false,
-      "id": 21
-    },
-    {
-      "title": "asd",
-      "description": "asd",
-      "date": "asd",
-      "timeEstimation": "asd",
+      "title": "aaa",
+      "description": "aaa",
+      "date": "aaa",
+      "timeEstimation": "aaa",
       "isDone": true,
-      "id": 22
+      "id": 11
     }
   ],
-  "login": [
+  "users": [
     {
-      "username": "my name",
-      "role": ["admin"]
+      "username": "my_name",
+      "password": "654321",
+      "id": 1
     },
     {
       "username": "user_name",
-      "password": "123456"
+      "password": "123456",
+      "id": 2
+    },
+    {
+      "username": "gdaleev",
+      "password": "123",
+      "id": 3
+    },
+    {
+      "username": "atunev",
+      "password": "321",
+      "id": 4
+    },
+    {
+      "username": "georgidaleev",
+      "password": "123",
+      "permissions": [
+        "canCreateNewTasks",
+        "canReadTasks",
+        "canUpdateOwnTasks",
+        "canDeleteOwnTasks"
+      ],
+      "ownerId": "",
+      "id": 5
+    },
+    {
+      "username": "aa",
+      "password": "aa",
+      "id": 6
     }
   ]
 }
