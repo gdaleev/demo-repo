@@ -1,109 +1,3 @@
-// async function solve() {
-//   const addBtn = document.getElementById("addBtn");
-//   const titleInput = document.getElementById("title");
-//   const descInput = document.getElementById("desc");
-//   const dateInput = document.getElementById("date");
-//   const checkBox = document.getElementById("check");
-//   const idInput = document.getElementById("identifier");
-//   let isChecked = checkBox.checked;
-
-//   const getTasks = await fetch("http://localhost:3000/results");
-//   const tasks = await getTasks.json();
-//   const ulEl = document.getElementById("toDoList");
-
-//   function showEditForm() {
-//     const h2 = document.getElementsByTagName("h2")[0];
-//     h2.textContent = "Edit Task:";
-//     const button = document.getElementById("addBtn");
-//     button.textContent = "Edit Task";
-//   }
-
-//   tasks.forEach((task) => {
-//     const { id, title, description, date, isDone } = task;
-//     const liEl = document.createElement("li");
-//     liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}`;
-//     const editBtn = document.createElement("button");
-//     const deleteBtn = document.createElement("button");
-//     editBtn.textContent = "Edit";
-//     deleteBtn.textContent = "Delete"
-//     deleteBtn.setAttribute("id", id)
-//     liEl.appendChild(editBtn);
-//     liEl.appendChild(deleteBtn);
-
-//     editBtn.addEventListener("click", (e) => {
-//       showEditForm();
-//       idInput.value = id;
-//       titleInput.value = title;
-//       descInput.value = description;
-//       dateInput.value = date;
-//       isChecked = isDone;
-
-//       if (isDone == true) {
-//         checkBox.checked = true;
-//       } else {
-//         checkBox.checked = false;
-//       }
-//     });
-
-//     deleteBtn.addEventListener("click", async () => {
-//       fetch(`http://localhost:3000/results/${id}`, {
-//         method: "DELETE",
-//         headers:{
-//           "Content-Type": "application/json"
-//         }
-//       })
-//     })
-
-//     ulEl.appendChild(liEl);
-//   });
-
-//   addBtn.addEventListener("click", async (e) => {
-//     e.preventDefault();
-//     if (addBtn.textContent == "Edit Task") {
-//       const data = {
-//         title: titleInput.value,
-//         description: descInput.value,
-//         date: dateInput.value,
-//         isDone: checkBox.checked == true ? true : false,
-//       };
-//       fetch(`http://localhost:3000/results/${idInput.value}`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(data),
-//       });
-//       titleInput.value = "";
-//       descInput.value = "";
-//       dateInput.value = "";
-//       checkBox.checked = false;
-//     } else {
-//       const data = {
-//         title: titleInput.value,
-//         description: descInput.value,
-//         date: dateInput.value,
-//         isDone: isChecked,
-//       };
-//       fetch("http://localhost:3000/results", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(data),
-//       });
-
-//       titleInput.value = "";
-//       descInput.value = "";
-//       dateInput.value = "";
-//       checkBox.checked = false;
-//     }
-//   });
-// }
-
-// solve();
-
-// ↓↓↓ Refactored code ↓↓↓
-
 async function getTasksFromServer() {
   const response = await fetch("http://localhost:3000/results");
   return response.json();
@@ -221,7 +115,7 @@ async function filterTrueFalse() {
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
-    deleteBtn.setAttribute("data-id", task.id); // Use task.id here
+    deleteBtn.setAttribute("data-id", task.id);
 
     liEl.appendChild(editBtn);
     liEl.appendChild(deleteBtn);
@@ -311,86 +205,97 @@ function search() {
   });
 }
 
-const nextPageBtn = document.getElementById("nextPage");
-const prevPageBtn = document.getElementById("previousPage");
 let pageLimit = 5;
 
 async function getNextPageItems() {
-  const pageLabel = document.getElementById("pageIndex");
-  let pageIndex = parseInt(pageLabel.textContent);
-  pageIndex++;
-  pageLabel.textContent = pageIndex;
+  try {
+    const pageLabel = document.getElementById("pageIndex");
+    let pageIndex = parseInt(pageLabel.textContent);
+    pageIndex++;
 
-  const response = await fetch(
-    `http://localhost:3000/results?_page=${pageIndex}&_limit=${pageLimit}`
-  );
-  const data = await response.json();
-  const toDoList = document.getElementById("toDoList");
-  toDoList.innerHTML = "";
+    const response = await fetch(
+      `http://localhost:3000/results?_page=${pageIndex}&_limit=${pageLimit}`
+    );
+    const data = await response.json();
 
-  for (const [
-    id,
-    { title, description, date, isDone, timeEstimation },
-  ] of Object.entries(data)) {
-    const liEl = document.createElement("li");
+    const nextPageBtn = document.getElementById("nextPage");
 
-    liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
-      timeEstimation ? timeEstimation : 0
-    } min`;
+    if (data.length > 0) {
+      renderTasks(data);
+      pageLabel.textContent = pageIndex;
+      nextPageBtn.disabled = false;
+    } else {
+      nextPageBtn.disabled = true;
+    }
 
-    toDoList.appendChild(liEl);
+    nextPageBtn.addEventListener("click", getNextPageItems);
+
+    const prevPageBtn = document.getElementById("previousPage");
+    prevPageBtn.addEventListener("click", getPrevPageItems);
+    prevPageBtn.disabled = false;
+  } catch (error) {
+    console.error("Error fetching next page:", error);
   }
-
-  // Check if there's more data beyond the current page
-  const nextPageResponse = await fetch(
-    `http://localhost:3000/results?_page=${pageIndex + 1}&_limit=${pageLimit}`
-  );
-  const nextPageData = await nextPageResponse.json();
-  const nextPageHasData = nextPageData.length > 0;
-
-  nextPageBtn.disabled = !nextPageHasData; // Disable if no more data for the next page
-  prevPageBtn.disabled = false; // Always enable previous page button after navigating to next
 }
+
+
 
 async function getPrevPageItems() {
-  const pageLabel = document.getElementById("pageIndex");
-  let pageIndex = parseInt(pageLabel.textContent);
-  pageIndex--;
+  try {
+    const pageLabel = document.getElementById("pageIndex");
+    let pageIndex = parseInt(pageLabel.textContent);
+    pageIndex--;
 
-  if (pageIndex < 1) {
-    pageIndex = 1;
+    // Ensure the pageIndex doesn't go below 1
+    if (pageIndex < 1) {
+      pageIndex = 1;
+    }
+
+    const response = await fetch(
+      `http://localhost:3000/results?_page=${pageIndex}&_limit=${pageLimit}`
+    );
+    const data = await response.json();
+
+    // Render the fetched items
+    renderTasks(data);
+
+    // Update the pageIndex in the UI
+    pageLabel.textContent = pageIndex;
+
+    // Enable/disable pagination buttons based on the pageIndex
+    const nextPageBtn = document.getElementById("nextPage");
+    nextPageBtn.addEventListener("click", getNextPageItems);
+    nextPageBtn.disabled = false;
+    const prevPageBtn = document.getElementById("previousPage");
+    prevPageBtn.addEventListener("click", getPrevPageItems);
+    prevPageBtn.disabled = pageIndex === 1;
+  } catch (error) {
+    console.error("Error fetching previous page:", error);
   }
+}
 
-  pageLabel.textContent = pageIndex;
-
-  const response = await fetch(
-    `http://localhost:3000/results?_page=${pageIndex}&_limit=${pageLimit}`
-  );
-  const data = await response.json();
+function renderTasks(data) {
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
 
-  for (const [
-    id,
-    { title, description, date, isDone, timeEstimation },
-  ] of Object.entries(data)) {
+
+  data.forEach((task) => {
     const liEl = document.createElement("li");
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
 
-    liEl.innerHTML = `Task: ${title}, Description: ${description}, Date: ${date}, Done: ${isDone}, TimeEstimation: ${
-      timeEstimation ? timeEstimation : 0
-    } min`;
+    liEl.appendChild(editBtn);
+    liEl.appendChild(deleteBtn);
 
+    const taskDetails = document.createElement("span");
+    taskDetails.textContent = `Task: ${task.title}, Description: ${task.description}`;
+
+    liEl.appendChild(taskDetails);
     toDoList.appendChild(liEl);
-  }
-
-  nextPageBtn.disabled = false; // Always enable next page button after navigating to previous
-  prevPageBtn.disabled = pageIndex === 1; // Disable if at the first page
+  });
 }
-
-
-nextPageBtn.addEventListener("click", getNextPageItems);
-prevPageBtn.addEventListener("click", getPrevPageItems);
-
 
 function validateForm() {
   const titleInput = document.getElementById("title");
@@ -463,18 +368,41 @@ async function deleteTask(id) {
   });
 }
 
+import page from "./node_modules/page/page.mjs";
+import { loginView } from "./views/loginView.js";
+import { registerView } from "./views/registerView.js";
+import { guestView } from "./views/guestView.js";
+import { userView } from "./views/userView.js";
+import { logout } from "./views/logout.js";
+
 const sortBtn = document.getElementById("sortBtn");
 const filterBtn = document.getElementById("filterBtn");
 const searchBtn = document.getElementById("searchBoxBtn");
-sortBtn.addEventListener("click", checkAscOrDesc);
-filterBtn.addEventListener("click", filterTrueFalse);
-searchBtn.addEventListener("click", search);
+const registerLink = document.querySelector(".register-link");
+const loginLink = document.querySelector(".top-link");
+// registerLink.addEventListener("click", registerView);
+// loginLink.addEventListener("click", loginView);
+// sortBtn.addEventListener("click", checkAscOrDesc);
+// filterBtn.addEventListener("click", filterTrueFalse);
+// searchBtn.addEventListener("click", search);
+
+page("/index.html", guestView);
+page("/", guestView);
+page("/login", loginView);
+page("/register", registerView);
+page("/home", (context, next) => {
+  userView(context, next);
+  initializeApp(); 
+});
+page("/logout", logout);
+page.start();
 
 async function initializeApp() {
-  //const tasks = await getTasksFromServer();
-  //const ulEl = document.getElementById("toDoList");
+  // const tasks = await getTasksFromServer();
+  // const ulEl = document.getElementById("toDoList");
   loadTaskPropsIntoDropdown();
   getNextPageItems();
+  getPrevPageItems();
 
   // tasks.forEach((task) => {
   //   const {
@@ -502,13 +430,10 @@ async function initializeApp() {
   //   ulEl.appendChild(liEl);
   // });
 
-  // const addBtn = document.getElementById("addBtn");
-  // addBtn.addEventListener("click", async (e) => {
-  //   e.preventDefault();
-  //   const isEdit = addBtn.textContent === "Edit Task";
-  //   await updateOrCreateTask(isEdit);
-  // });
+  const addBtn = document.getElementById("addBtn");
+  addBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const isEdit = addBtn.textContent === "Edit Task";
+    await updateOrCreateTask(isEdit);
+  });
 }
-
-// Run the app
-initializeApp();
