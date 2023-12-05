@@ -40,7 +40,7 @@ async function onSubmit(e) {
         body: JSON.stringify({
           username: username,
           password: password,
-          permissions: ['canCreateNewTasks', 'canReadTasks', 'canUpdateOwnTasks', 'canDeleteOwnTasks'],
+          role: "user"
         }),
       });
 

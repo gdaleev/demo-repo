@@ -296,35 +296,79 @@ async function getPrevPageItems() {
   }
 }
 
+async function getUserRoles() {
+  const response = await fetch("http://localhost:3000/roles")
+  const data = await response.json()
+  const { permissions } = Object.entries(data)
+}
+
 async function renderTasks(data) {
   const toDoList = document.getElementById("toDoList");
   toDoList.innerHTML = "";
   const ownerId = await getCurrentUserId();
+  const currentUserRole = await getCurrentUserRole()
+  const rolePermissions = await getRolePermissions(currentUserRole)
 
   data.forEach((task) => {
     const liEl = document.createElement("li");
 
-    if (task.ownerId == ownerId) {
+    const canEditOwnTasks = rolePermissions.includes("canUpdateOwnTasks")
+    const canEditAllTasks = rolePermissions.includes("canUpdateAllTasks")
+    const canDeleteOwnTasks = rolePermissions.includes("canDeleteOwnTasks")
+    const canDeleteAllTasks = rolePermissions.includes("canDeleteAllTasks")
+    const canReadTasks = rolePermissions.includes("canReadTasks")
+
+    if (canEditOwnTasks && canDeleteOwnTasks) {
+      if (task.ownerId == ownerId) {
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.setAttribute("id", "editBtn");
+        editBtn.setAttribute("data-btnId", task.id);
+        editBtn.addEventListener("click", () => handleEditTask(task.id)); 
+        const deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("id", "deleteBtn");
+        deleteBtn.setAttribute("data-btnId", task.id);
+        deleteBtn.addEventListener("click", () => deleteTask(task.id))
+        deleteBtn.textContent = "Delete";
+        const taskDetails = document.createElement("span");
+        taskDetails.textContent = `Task: ${task.title}, Description: ${
+          task.description
+        }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
+          task.timeEstimation ? task.timeEstimation : 0
+        } min`;
+        liEl.appendChild(taskDetails);
+        liEl.appendChild(editBtn);
+        liEl.appendChild(deleteBtn);
+      } else {
+        const taskDetails = document.createElement("span");
+        taskDetails.textContent = `Task: ${task.title}, Description: ${
+          task.description
+        }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
+          task.timeEstimation ? task.timeEstimation : 0
+        } min`;
+        liEl.appendChild(taskDetails);
+      }
+    } else if (canEditAllTasks && canDeleteAllTasks) {
       const editBtn = document.createElement("button");
-      editBtn.textContent = "Edit";
-      editBtn.setAttribute("id", "editBtn");
-      editBtn.setAttribute("data-btnId", task.id);
-      editBtn.addEventListener("click", () => handleEditTask(task.id)); 
-      const deleteBtn = document.createElement("button");
-      deleteBtn.setAttribute("id", "deleteBtn");
-      deleteBtn.setAttribute("data-btnId", task.id);
-      deleteBtn.addEventListener("click", () => deleteTask(task.id))
-      deleteBtn.textContent = "Delete";
-      const taskDetails = document.createElement("span");
-      taskDetails.textContent = `Task: ${task.title}, Description: ${
-        task.description
-      }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
-        task.timeEstimation ? task.timeEstimation : 0
-      } min`;
-      liEl.appendChild(taskDetails);
-      liEl.appendChild(editBtn);
-      liEl.appendChild(deleteBtn);
-    } else {
+        editBtn.textContent = "Edit";
+        editBtn.setAttribute("id", "editBtn");
+        editBtn.setAttribute("data-btnId", task.id);
+        editBtn.addEventListener("click", () => handleEditTask(task.id)); 
+        const deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("id", "deleteBtn");
+        deleteBtn.setAttribute("data-btnId", task.id);
+        deleteBtn.addEventListener("click", () => deleteTask(task.id))
+        deleteBtn.textContent = "Delete";
+        const taskDetails = document.createElement("span");
+        taskDetails.textContent = `Task: ${task.title}, Description: ${
+          task.description
+        }, Date: ${task.date}, Done: ${task.isDone}, TimeEstimation: ${
+          task.timeEstimation ? task.timeEstimation : 0
+        } min`;
+        liEl.appendChild(taskDetails);
+        liEl.appendChild(editBtn);
+        liEl.appendChild(deleteBtn);
+    } else if (rolePermissions.length == 1 && canReadTasks) {
       const taskDetails = document.createElement("span");
       taskDetails.textContent = `Task: ${task.title}, Description: ${
         task.description
@@ -333,7 +377,6 @@ async function renderTasks(data) {
       } min`;
       liEl.appendChild(taskDetails);
     }
-
     toDoList.appendChild(liEl);
   });
 }
@@ -378,6 +421,33 @@ async function getCurrentUserId() {
     if (userString == username) {
       ownerId = id;
       return ownerId;
+    }
+  }
+}
+
+async function getCurrentUserRole() {
+  const userString = localStorage.getItem("username");
+
+  const userDataResponse = await fetch("http://localhost:3000/users");
+  const userData = await userDataResponse.json();
+
+  let userRole = ""
+
+  for (const [_id, { role, username }] of Object.entries(userData)) {
+    if (userString == username) {
+      userRole = role
+      return role;
+    }
+  }
+}
+
+async function getRolePermissions(userRole) {
+  const response = await fetch("http://localhost:3000/roles")
+  const data = await response.json()
+
+  for (const [id, {role, permissions}] of Object.entries(data)) {
+    if (userRole == role) {
+      return permissions
     }
   }
 }
