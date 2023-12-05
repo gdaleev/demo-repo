@@ -52,7 +52,6 @@ async function sortAscending() {
 
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Delete";
-      deleteBtn.setAttribute("data-id", id);
 
       liEl.appendChild(editBtn);
       liEl.appendChild(deleteBtn);
@@ -192,28 +191,31 @@ function checkAscOrDesc() {
 //   };
 // }
 
-// function handleEditTask(task) {
-//   const { id, title, description, date, isDone, timeEstimation } = task;
+async function handleEditTask(id) {
+  const response = await fetch("http://localhost:3000/results");
+  const data = await response.json();
 
-//   const h2 = document.getElementsByTagName("h2")[0];
-//   h2.textContent = "Edit Task:";
-//   const button = document.getElementById("addBtn");
-//   button.textContent = "Edit Task";
+  const taskToEdit = data.find(task => task.id === id);
 
-//   const idInput = document.getElementById("identifier");
-//   const titleInput = document.getElementById("title");
-//   const descInput = document.getElementById("desc");
-//   const dateInput = document.getElementById("date");
-//   const timeInput = document.getElementById("time");
-//   const checkBox = document.getElementById("check");
+  const h2 = document.getElementsByTagName("h2")[0];
+  h2.textContent = "Edit Task:";
+  const button = document.getElementById("addBtn");
+  button.textContent = "Edit Task";
 
-//   idInput.value = id;
-//   titleInput.value = title;
-//   descInput.value = description;
-//   dateInput.value = date;
-//   timeInput.value = timeEstimation;
-//   checkBox.checked = isDone;
-// }
+  const idInput = document.getElementById("identifier");
+  const titleInput = document.getElementById("title");
+  const descInput = document.getElementById("desc");
+  const dateInput = document.getElementById("date");
+  const timeInput = document.getElementById("time");
+  const checkBox = document.getElementById("check");
+
+  idInput.value = taskToEdit.id;
+  titleInput.value = taskToEdit.title;
+  descInput.value = taskToEdit.description;
+  dateInput.value = taskToEdit.date;
+  timeInput.value = taskToEdit.timeEstimation;
+  checkBox.checked = taskToEdit.isDone;
+}
 
 function search() {
   const searchBox = document.getElementById("searchBox");
@@ -305,7 +307,13 @@ async function renderTasks(data) {
     if (task.ownerId == ownerId) {
       const editBtn = document.createElement("button");
       editBtn.textContent = "Edit";
+      editBtn.setAttribute("id", "editBtn");
+      editBtn.setAttribute("data-btnId", task.id);
+      editBtn.addEventListener("click", () => handleEditTask(task.id)); 
       const deleteBtn = document.createElement("button");
+      deleteBtn.setAttribute("id", "deleteBtn");
+      deleteBtn.setAttribute("data-btnId", task.id);
+      deleteBtn.addEventListener("click", () => deleteTask(task.id))
       deleteBtn.textContent = "Delete";
       const taskDetails = document.createElement("span");
       taskDetails.textContent = `Task: ${task.title}, Description: ${
