@@ -75,85 +75,74 @@
       "id": 10
     },
     {
-      "title": "aaa",
-      "description": "aaa",
-      "date": "aaa",
-      "timeEstimation": "aaa",
-      "isDone": true,
+      "title": "Train",
+      "description": "Go to the gym",
+      "date": "06/12/2023",
+      "timeEstimation": "120",
+      "isDone": false,
+      "ownerId": 3,
       "id": 11
     },
     {
-      "title": "bbb",
-      "description": "bbb",
-      "date": "bbb",
-      "timeEstimation": "bbb",
-      "isDone": false,
-      "ownerId": 1,
-      "id": 12
-    },
-    {
-      "title": "ddd",
-      "description": "ddd",
-      "date": "ddd",
-      "timeEstimation": "",
-      "isDone": false,
-      "ownerId": 3,
-      "id": 14
-    },
-    {
-      "title": "Idi do magazina",
-      "description": "Kupi hlqb",
-      "date": "05/12/2023",
-      "timeEstimation": "15",
+      "title": "Practice",
+      "description": "Go to Scalefocus",
+      "date": "06/12/2023",
+      "timeEstimation": "180",
       "isDone": false,
       "ownerId": 4,
-      "id": 15
+      "id": 12
     }
   ],
   "users": [
     {
-      "username": "georgidaleev",
-      "password": "123",
-      "permissions": [
-        "canCreateNewTasks",
-        "canReadTasks",
-        "canUpdateOwnTasks",
-        "canDeleteOwnTasks"
-      ],
+      "username": "admin",
+      "password": "1",
+      "role": "admin",
       "id": 1
     },
     {
-      "username": "atanastunev",
-      "password": "321",
-      "permissions": [
-        "canCreateNewTasks",
-        "canReadTasks",
-        "canUpdateOwnTasks",
-        "canDeleteOwnTasks"
-      ],
+      "username": "moderator",
+      "password": "2",
+      "role": "moderator",
       "id": 2
     },
     {
-      "username": "vasilurumov",
-      "password": "456",
-      "permissions": [
-        "canCreateNewTasks",
-        "canReadTasks",
-        "canUpdateOwnTasks",
-        "canDeleteOwnTasks"
-      ],
+      "username": "gdaleev",
+      "password": "123",
+      "role": "user",
       "id": 3
     },
     {
-      "username": "pesho",
-      "password": "0000",
+      "username": "atunev",
+      "password": "321",
+      "role": "user",
+      "id": 4
+    }
+  ],
+  "roles": [
+    {
+      "role": "admin",
+      "permissions": [
+        "canCreateNewTasks",
+        "canReadTasks",
+        "canUpdateAllTasks",
+        "canDeleteAllTasks"
+      ]
+    },
+    {
+      "role": "user",
       "permissions": [
         "canCreateNewTasks",
         "canReadTasks",
         "canUpdateOwnTasks",
         "canDeleteOwnTasks"
-      ],
-      "id": 4
+      ]
+    },
+    {
+      "role": "moderator",
+      "permissions": [
+        "canReadTasks"
+      ]
     }
   ]
 }
