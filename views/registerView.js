@@ -18,6 +18,7 @@ const registerTemp = html`<div id="top-links">
   </form>`;
 
 export function registerView() {
+  
   render(registerTemp, main);
 }
 

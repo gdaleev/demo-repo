@@ -233,7 +233,7 @@ function search() {
   });
 }
 
-let pageLimit = 5;
+let pageLimit = 4;
 
 async function getNextPageItems() {
   try {
